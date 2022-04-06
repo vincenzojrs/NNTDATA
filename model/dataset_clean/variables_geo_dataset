@@ -1,0 +1,10 @@
+city = nome città
+city_lat = latitudine città
+cit_long = longituine città
+city_aut_com = comunità autonoma città
+id_ac = id comunità autonoma
+population = n. abitanti
+province = provincia città
+is_capital? = è capitale della provincia?
+              [0 -> NO; 1 -> SÌ]
+province_id = id provincia
