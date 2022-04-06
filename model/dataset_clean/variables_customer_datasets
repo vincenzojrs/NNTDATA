@@ -1,0 +1,34 @@
+customer_unique_id (PK) = codice identificativo cliente
+customer_city = città di acquisto del cliente
+order_count = numero di ordini andati a buon fine
+product_count = numero prodotti complessivamente acquistati
+n. recensioni prodotto = numero recensioni (realizzate per prodotto)
+review rate = numero di prodotti acquistati / n. prodotti recensiti
+score_medio_reviews = punteggio medio assegnato a ciascun prodotto
+costoprodotti_totale = spesa totale netta per i prodotti
+costoprodotti_nedio = spesa netta media per prodotto
+spedizioni_totale = spesa totale per le sole spedizioni
+spedizioni_medie = spesa media per le sole spedizioni per ciascun ordine
+costo_medio_ordine_ponderato_al_prezzo_e_quantità = valore tipico del carrello, calcolato ponderando le quantità dei prodotti ai prezzi
+most_used_pm = metodo di spedizione preferito
+n_medio_pagamenti = numero medio pagamenti per ordine
+n_medio_rate = numero medio rate per ordine
+most_frequent_time = ora preferita (arrotondata) in cui sono avvenuti gli ordini
+average_order_time = ora media (arrotondata) in cui sono avvenuti gli ordini
+most_frequent_time_bin = ora preferita (arrotondata) in cui sono avvenuti gli ordini
+                         [(00:00 -> 05:59) = 1; (06:00 -> 12:59) = 2; (13:00 -> 18:59) = 3; (19:00 -> 23:59) = 4]
+average_order_time_bin = ora preferita media (arrotondata) in cui sono avvenuti gli ordini (guarda su per spiegazioni modalità)
+most_frequent_weekday = giorno della settimana preferito per acquisti
+                        (LUN -> 1 ecc.)
+average_weekday = giorno della settimana medio per acquisti
+                        (LUN -> 1 ecc.)
+most_frequent_weekday_bin = bin giorno della settimana preferito per acquisti
+                        (LUNVEN -> 1; SABDOM -> 2)
+average_weekday_bin = bin giorno della settimana medio per acquisti
+                        (LUNVEN -> 1; SABDOM -> 2)
+most_frequent_month = mese preferito per acquisti
+                        (1 -> GENNAIO; 2 -> FEBBRAIO)
+most_frequent_month_bin = bin mese preferito per acquisti 
+                        [(DEC -> FEB) = 1; (MAR -> MAG) = 2; (GIU -> AGO) = 3; (SET -> NOV) = 4]
+average_month_order_bin = bin mese medio per acquisti 
+                        [(DEC -> FEB) = 1; (MAR -> MAG) = 2; (GIU -> AGO) = 3; (SET -> NOV) = 4]
