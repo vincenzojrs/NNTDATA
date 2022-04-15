@@ -168,42 +168,6 @@ fig = px.scatter_3d(df_cluster_time, x="most_frequent_time_bin", y="most_frequen
 fig.show()
 
 
-#CLUSTER OVER MONEY, RATE, PRODUCT COUNT
-df_db = df_cluster[["costoprodotti_totale","product count", "n_medio_rate"]]
-df_scale = df_db.sample(15000, random_state=42)  # random sample
-df_label = df_db.sample(15000, random_state=42)
-
-index = df_label.index  # get index
-index = index.to_list()
-index_sub = pd.DataFrame()
-index_sub["index"] = index
-
-scaler = StandardScaler().fit(df_scale)  # scale data for clustering
-df_scale = scaler.transform(df_scale)
-df_scale = pd.DataFrame(df_scale)
-df_scale = df_scale.set_index(index_sub["index"])
-
-from sklearn.cluster import DBSCAN
-
-DBSCAN_cluster = DBSCAN(eps=0.3, min_samples=100).fit(df_scale)  # cluster
-
-index_sub["cluster"] = DBSCAN_cluster.labels_
-index_sub = index_sub.set_index("index")
-df_dbscan = df_label.copy()
-df_dbscan = df_dbscan.join(index_sub)
-
-df_segm_analysis = df_dbscan.groupby(['cluster']).mean()  # means of the cluster based on the variables used
-df_dbscan.value_counts(["cluster"])
-
-# VISUALIZE
-pio.renderers.default = 'browser'  # set pre-definite browser as palce were to render the image
-fig = px.scatter_3d(df_dbscan,
-                 x="costoprodotti_totale",
-                 y="n_medio_rate",
-                 z="product count",
-                 color="cluster", opacity=0.8)
-fig.show()
-
 
 
 #### DBSCAN ####
@@ -240,4 +204,45 @@ df_cluster_time['cluster_time_DBSCAN'] = clusters_DBSCAN
 
 #mean analysis of clusters per variable
 mean_clusters_DBSCAN = df_cluster_time.groupby("cluster_time_DBSCAN").mean()
+
+
+
+
+
+#CLUSTER OVER MONEY, RATE, PRODUCT COUNT
+df_db = df_cluster[["costoprodotti_totale","product count", "n_medio_rate"]]
+df_scale = df_db.sample(15000, random_state=42)  # random sample
+df_label = df_db.sample(15000, random_state=42)
+
+index = df_label.index  # get index
+index = index.to_list()
+index_sub = pd.DataFrame()
+index_sub["index"] = index
+
+scaler = StandardScaler().fit(df_scale)  # scale data for clustering
+df_scale = scaler.transform(df_scale)
+df_scale = pd.DataFrame(df_scale)
+df_scale = df_scale.set_index(index_sub["index"])
+
+from sklearn.cluster import DBSCAN
+
+DBSCAN_cluster = DBSCAN(eps=0.3, min_samples=100).fit(df_scale)  # cluster
+
+index_sub["cluster"] = DBSCAN_cluster.labels_
+index_sub = index_sub.set_index("index")
+df_dbscan = df_label.copy()
+df_dbscan = df_dbscan.join(index_sub)
+
+df_segm_analysis = df_dbscan.groupby(['cluster']).mean()  # means of the cluster based on the variables used
+df_dbscan.value_counts(["cluster"])
+
+# VISUALIZE
+pio.renderers.default = 'browser'  # set pre-definite browser as palce were to render the image
+fig = px.scatter_3d(df_dbscan,
+                 x="costoprodotti_totale",
+                 y="n_medio_rate",
+                 z="product count",
+                 color="cluster", opacity=0.8)
+fig.show()
+
 
