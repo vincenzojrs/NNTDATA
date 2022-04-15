@@ -90,27 +90,91 @@ df_cluster = df_cluster.join(dummy_df)
 
 for column in df_cluster.columns[1:]:
     df_cluster[column] = pd.to_numeric(df_cluster[column])
-    df_cluster[column].fillna((df_cluster[column].median()), inplace=True)
+    df_cluster[column].fillna((df_cluster[column].mean()), inplace=True)
 
 
+       
+       
+
+########## CLUSTERS ON PURCHASE TIME #############
+
+x = df_cluster.iloc[:, [11,12,13]].values
 
 from sklearn.preprocessing import StandardScaler
-x = df_cluster.iloc[:, df_cluster.columns != "customer_unique_id"].values
 x = StandardScaler().fit_transform(x) # normalizing the features
 
+### K-means ###
 
-from sklearn.decomposition import PCA
-pca_breast = PCA(n_components=8)
-principalComponents_breast = pca_breast.fit_transform(x)
-#principal_breast_Df = pd.DataFrame(data = principalComponents_breast
-#             , columns = ['principal component 1', 'principal component 2'])
+#choosing the right number of k through the elbow method
+from sklearn.cluster import KMeans
+objective_function=[]
+for i in range(1,11):
+    clustering=KMeans(n_clusters=i, init='k-means++')
+    clustering.fit(x)
+    objective_function.append(clustering.inertia_)
+
+plt.plot(range(1,11),objective_function)
+plt.title('The Elbow Method')
+plt.xlabel('Number of Clusters K')
+plt.ylabel('objective_function')
+plt.show()
+
+#algorithm
+kmeans = KMeans(n_clusters=7, init='k-means++', random_state = 0)
+y_kmeans = kmeans.fit_predict(x)
+df_cluster['cluster_time_kmeans'] = y_kmeans
+df_cluster_time = df_cluster[['most_frequent_time_bin', 'most_frequent_weekday_bin',
+       'most_frequent_month_bin','cluster_time_kmeans']]
+
+from sklearn import metrics
+#silhouette score -> it requires time to run
+#print(metrics.silhouette_score(x, y_kmeans, metric='euclidean'))
+# it is 0.46956759237868867
+
+#mean analysis of clusters per variable
+mean_clusters_time = df_cluster_time.groupby("cluster_time_kmeans").mean()
+
+#visualizing the results
+import plotly.express as px
+import plotly.io as pio
+pio.renderers.default = 'browser'
+fig = px.scatter_3d(df_cluster_time, x="most_frequent_time_bin", y="most_frequent_weekday_bin", z="most_frequent_month_bin",
+                    color="cluster_time_kmeans", opacity=0.8)
+fig.show()
 
 
-print('Explained variation per principal component: {}'.format(pca_breast.explained_variance_ratio_))
 
-# >> Explained variation per principal component: [0.36198848 0.1920749 ]
+### GAUSSIAN MIXTURE ####
+from sklearn.mixture import GaussianMixture
 
-print('Cumulative variance explained by 2 principal components: {:.2%}'.format(np.sum(pca_breast.explained_variance_ratio_)))
+gmm = GaussianMixture(n_components=6)
+labels = gmm.fit_predict(x)
+
+# silhouette score
+#print(metrics.silhouette_score(x, labels, metric='euclidean'))
+# 0.3481903982465212 for n_components=7
+# 0.4573092030018828 for n_components=6
+# 0.3834364509372617 for n_components=5
 
 
+df_cluster_time['cluster_time_GM'] = labels
+
+# store the clusters to compute the Dunn's index
+from jqmcvi import base
+
+clus0 = df_cluster_time[df_cluster_time['cluster_time_GM']== 0]
+clus1 = df_cluster_time[df_cluster_time['cluster_time_GM']== 1]
+clus2 = df_cluster_time[df_cluster_time['cluster_time_GM']== 2]
+cluster_list = [clus0.values, clus1.values, clus2.values]
+
+print(base.dunn(cluster_list))
+
+
+#mean analysis of clusters per variable
+mean_clusters_GM = df_cluster_time.groupby("cluster_time_GM").mean()
+
+#visualizing the results
+fig = px.scatter_3d(df_cluster_time, x="most_frequent_time_bin", y="most_frequent_weekday_bin", z="most_frequent_month_bin",
+                    color="cluster_time_GM", opacity=0.8)
+fig.show()
 
