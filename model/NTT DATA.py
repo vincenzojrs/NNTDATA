@@ -60,7 +60,7 @@ df['Forniture']= df[lista].sum(axis=1)
 del lista
 del productcategory_names
 
-######################################### ANCORA DA REFACTORARE ############################################
+#PER CREARE NUOVO DATAFRAME, NON BASARSI SU ETICHETTA COLONNA MA NUMERO INDICE COLONNA: MENO SCRIVERE MEGLIO È
 
 df_cluster = df.iloc[:, [0,1,2,3,4] #INDICI COLONNA NECESSARI
 df_cluster = df_cluster.replace('#N/D', np.NaN)
@@ -73,6 +73,7 @@ enc_df = pd.DataFrame(enc.fit_transform(df_cluster[['most_used_paym_meth']]).toa
 # merge with main df bridge_df on key values
 df_cluster = df_cluster.join(enc_df)
 '''
+                     
 #CONCATENATO OPERAZIONI
 dummy_df = pd.get_dummies(df_cluster["most_used_paym_meth"]).drop(["most_used_paym_meth"], axis=1).join(dummy_df)
 
