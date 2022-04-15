@@ -1,78 +1,68 @@
+#IMPORT E PIP SOPRA A TUTTO
+
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
 import pandas as pd
 import numpy as np
-
-##### CLUSTERING NTT
 
 df = pd.read_csv("customer_dataset.csv", sep=";")
 
 df = df[df.automotive != "#N/D"]
 
-productcategory_names = ['agriculture suppliers', 'automotive',
-       'bakeware', 'beauty & personal care', 'bedroom decor', 'book',
-       'business office', 'camera & photo', 'cd vinyl', 'ceiling fans',
-       'cell phones', 'cleaning supplies', 'coffee machines', 'comics',
-       'computer accessories', 'computers tablets', 'diet sports nutrition',
-       'dvd', 'event & party supplies', 'fabric', 'fashion & shoes',
-       'film & photography', 'fire safety', 'food', 'fragrance', 'furniture',
-       'handbags & accessories', 'hardware', 'headphones', 'health household',
-       'home accessories', 'home appliances', 'home audio',
-       'home emergency kits', 'home lighting', 'home security systems',
-       'jewelry', 'kids', 'kids fashion', 'kitchen & dining', 'lawn garden',
-       'light bulbs', 'luggage', 'mattresses & pillows', 'medical supplies',
-       "men's fashion", 'model hobby building', 'monitors',
-       'music instruments', 'office products', 'oral care', 'painting',
-       'pet food', 'pet supplies', 'safety apparel', 'seasonal decor', 'sofa',
-       'sport outdoors', 'television & video', 'tools home improvement',
-       'toys games', 'underwear', 'videogame', 'videogame console', 'wall art',
-       'watches', 'wellness & relaxation', "woman's fashion"]
+# qui farei un dizionario del tipo
+# dict = {1: 'agriculture suppliers', 2: 'automotive'...}
+# così, quando invocherai le singole etichette come fai dopo, non dovrai scrivere tutta l'etichetta, ma solo
+# lista = list(itemgetter(1, 2, 6)(dict))
+# e quando hai bisogno di invocare le singole etichette 
 
-df[productcategory_names] = df[productcategory_names].apply(pd.to_numeric, errors='coerce')
+dict = {1: 'agriculture suppliers', 2: 'automotive',
+        3: 'bakeware', 4: 'beauty & personal care',
+        5: 'bedroom decor', 6: 'book', 7: 'business office',
+        8: 'camera & photo', 9: 'cd vinyl', 10: 'ceiling fans',
+        11: 'cell phones', 12: 'cleaning supplies', 13: 'coffee machines',
+        14: 'comics', 15: 'computer accessories', 16: 'computers tablets',
+        17: 'diet sports nutrition', 18: 'dvd', 19: 'event & party supplies',
+        20: 'fabric', 21: 'fashion & shoes', 22: 'film & photography, 
+        23: 'fire safety', 24: 'food', 25: 'fragrance',
+        26: 'furniture', 27: 'handbags & accessories', 28: 'hardware',
+        29: 'headphones', 30: 'health household', 31: 'home accessories',
+        32: 'home appliances', 33: 'home audio', 34: 'home emergency kits',
+        35: 'home lighting', 36: 'home security systems', 37: 'jewelry',
+        38: 'kids', 39: 'kids fashion', 40: 'kitchen & dining',
+        41: 'lawn garden', 42: 'light bulbs', 43: 'luggage',
+        44: 'mattresses & pillows', 45: 'medical supplies', 46: "men's fashion",
+        47: 'model hobby building', 48: 'monitors', 49: 'music intstruments',
+        50: 'office products', 51: 'oral care', 52: 'painting',
+        53: 'pet food', 54: 'pet supplies', 55: 'safety apparel',
+        56: 'seasonal decor', 57: 'sofa', 58: 'sport outdoors',
+        59: 'television & video', 60: 'tools home improvement',
+        61: 'toys games', 62: 'underwear', 63: 'videogame', 
+        64: 'videogame console', 65: 'wall art', 66: 'watches',
+        67: 'wellness & relaxation', 68: "woman's fashion")
 
+#OTTENERE LA LISTA DEI SOLI VALORI DEL DIZIONARIO, QUINDI LISTA CONTENENTE ETICHETTE (FORSE NON NECESSARIA)
+#labels = list(map(lambda key: dict[key],dict)) 
+        
+# NON HO CAPITO RIGO 44 :'(
+#df[productcategory_names] = df[productcategory_names].apply(pd.to_numeric, errors='coerce')
 
+lista = list(itemgetter(3, 5, 12, 30, 31, 32, 33, 34, 35, 36,
+                        40, 44, 56, 60, 65, 19, 43, 45, 53, 54,
+                        24, 38, 51)(dict))
+        
+df['Home']= df[lista].sum(axis=1)
 
-column_names_home = ['bakeware', 'bedroom decor', 'cleaning supplies',
-                     'home accessories', 'home appliances', 'home audio',
-                     'home emergency kits', 'home lighting', 'home security systems',
-                     'health household', 'kitchen & dining', 'mattresses & pillows',
-                     'seasonal decor', 'tools home improvement', 'wall art',
-                     'event & party supplies', 'luggage', 'medical supplies', 'pet food',
-                     'pet supplies', 'food', 'kids', 'toys games']
-df['Home']= df[column_names_home].sum(axis=1)
+# RIPETERE VARIABILE "LISTA": LA SOVRASCRITTURA NON È UN PROBLEMA, MENO COMANDI "DEL" DOPO E MENO MEMORIA UTILIZZATA
 
+lista = list(itemgetter(10, 13, 7, 26, 42, 50, 23, 2, 57)(dict))
+df['Forniture']= df[lista].sum(axis=1)
 
-column_names_forniture = ['ceiling fans', 'coffee machines', 'business office','furniture',
-                          'light bulbs', 'office products', 'fire safety', 'automotive', 'sofa']
-df['Forniture']= df[column_names_forniture].sum(axis=1)
-
-column_names_tech = ['camera & photo', 'cd vinyl', 'cell phones', 'computer accessories', 'computers tablets','dvd',
-                     'film & photography', 'hardware', 'headphones', 'monitors', 'television & video',
-                     'videogame', 'videogame console']
-df['Technology']= df[column_names_tech].sum(axis=1)
-
-column_names_fashion =['beauty & personal care', 'fashion & shoes', 'fabric',
-                       'handbags & accessories', 'fragrance','jewelry', "men's fashion", 'underwear',
-                       'watches', 'wellness & relaxation',"woman's fashion", 'kids fashion',
-                       'diet sports nutrition', 'oral care', 'safety apparel']
-df['Fashion/Personal care']= df[column_names_fashion].sum(axis=1)
-
-
-column_names_hobbies = ['agriculture suppliers', 'book', 'comics','lawn garden',
-                        'model hobby building', 'painting','sport outdoors', 'music instruments']
-df['Hobbies']= df[column_names_hobbies].sum(axis=1)
-
-del column_names_home
-del column_names_tech
-del column_names_fashion
-del column_names_forniture
-del column_names_hobbies
+del lista
 del productcategory_names
 
-df_cluster = df[['customer_unique_id', "order_count (only positive orders)", "product count", "review_rate (n. recensioni / n. prodotti acquistati)",
-         "score_medio_reviews", "costoprodotti_medio", "spedizioni_medie",
-         "most_used_paym_meth", "n_medio_pagamenti", "n_medio_rate", "most_frequent_time_bin",
-                 "most_frequent_weekday_bin", "most_frequent_month_bin",
-                 'Home', 'Forniture', 'Technology', 'Fashion/Personal care', 'Hobbies' ]]
+######################################### ANCORA DA REFACTORARE ############################################
 
+df_cluster = df.iloc[:, [0,1,2,3,4] #INDICI COLONNA NECESSARI
 df_cluster = df_cluster.replace('#N/D', np.NaN)
 
 '''
@@ -83,23 +73,17 @@ enc_df = pd.DataFrame(enc.fit_transform(df_cluster[['most_used_paym_meth']]).toa
 # merge with main df bridge_df on key values
 df_cluster = df_cluster.join(enc_df)
 '''
+#CONCATENATO OPERAZIONI
+dummy_df = pd.get_dummies(df_cluster["most_used_paym_meth"]).drop(["most_used_paym_meth"], axis=1).join(dummy_df)
 
-dummy_df = pd.get_dummies(df_cluster["most_used_paym_meth"])
-df_cluster = df_cluster.drop(["most_used_paym_meth"], axis=1)
-df_cluster = df_cluster.join(dummy_df)
 
 for column in df_cluster.columns[1:]:
     df_cluster[column] = pd.to_numeric(df_cluster[column])
     df_cluster[column].fillna((df_cluster[column].median()), inplace=True)
 
-
-
-from sklearn.preprocessing import StandardScaler
 x = df_cluster.iloc[:, df_cluster.columns != "customer_unique_id"].values
 x = StandardScaler().fit_transform(x) # normalizing the features
 
-
-from sklearn.decomposition import PCA
 pca_breast = PCA(n_components=8)
 principalComponents_breast = pca_breast.fit_transform(x)
 #principal_breast_Df = pd.DataFrame(data = principalComponents_breast
