@@ -1,3 +1,5 @@
+il file era troppo grande, quindi è stato zippato
+
 customer_unique_id (PK) = codice identificativo cliente
 customer_city = città di acquisto del cliente
 order_count = numero di ordini andati a buon fine
@@ -32,3 +34,4 @@ most_frequent_month_bin = bin mese preferito per acquisti
                         [(DEC -> FEB) = 1; (MAR -> MAG) = 2; (GIU -> AGO) = 3; (SET -> NOV) = 4]
 average_month_order_bin = bin mese medio per acquisti 
                         [(DEC -> FEB) = 1; (MAR -> MAG) = 2; (GIU -> AGO) = 3; (SET -> NOV) = 4]
+recency = media per tutti gli ordini di (ultima data periodo di riferimento - data ordine)
