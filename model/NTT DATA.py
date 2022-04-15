@@ -43,7 +43,7 @@ dict = {1: 'agriculture suppliers', 2: 'automotive',
 #OTTENERE LA LISTA DEI SOLI VALORI DEL DIZIONARIO, QUINDI LISTA CONTENENTE ETICHETTE (FORSE NON NECESSARIA)
 #labels = list(map(lambda key: dict[key],dict)) 
         
-# NON HO CAPITO RIGO 44 :'(
+# NON HO CAPITO RIGO 47 :'(
 #df[productcategory_names] = df[productcategory_names].apply(pd.to_numeric, errors='coerce')
 
 lista = list(itemgetter(3, 5, 12, 30, 31, 32, 33, 34, 35, 36,
