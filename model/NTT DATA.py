@@ -204,3 +204,40 @@ fig = px.scatter_3d(df_dbscan,
                  color="cluster", opacity=0.8)
 fig.show()
 
+
+
+#### DBSCAN ####
+
+# not very performing for count data
+
+from sklearn.cluster import DBSCAN
+from sklearn.neighbors import NearestNeighbors
+
+# Tune DBSCAN "esp" parameter
+def get_kdist_plot(X=None, k=None, radius_nbrs=1.0):
+    nbrs = NearestNeighbors(n_neighbors=k, radius=radius_nbrs).fit(X)
+    # For each point, compute distances to its k-nearest neighbors
+    distances, indices = nbrs.kneighbors(X)
+    distances = np.sort(distances, axis=0)
+    distances = distances[:, k - 1]
+    # Plot the sorted K-nearest neighbor distance for each point in the dataset
+    fig = plt.figure(figsize=(8, 8))
+    plt.plot(distances)
+    plt.xlabel('Points/Objects in the dataset', fontsize=12)
+    plt.ylabel('Sorted {}-nearest neighbor distance'.format(k), fontsize=12)
+    plt.grid(True, linestyle="--", color='black', alpha=0.4)
+    plt.show()
+    return fig
+
+
+k = 2 * x.shape[-1] - 1  # k=2*{dim(dataset)} - 1
+get_kdist_plot(X=x, k=k)
+
+DBSCAN_alg = DBSCAN(eps=0.1, min_samples=10)
+clusters_DBSCAN = DBSCAN_alg.fit_predict(x)
+
+df_cluster_time['cluster_time_DBSCAN'] = clusters_DBSCAN
+
+#mean analysis of clusters per variable
+mean_clusters_DBSCAN = df_cluster_time.groupby("cluster_time_DBSCAN").mean()
+
