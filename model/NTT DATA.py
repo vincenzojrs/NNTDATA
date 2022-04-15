@@ -159,17 +159,6 @@ labels = gmm.fit_predict(x)
 
 df_cluster_time['cluster_time_GM'] = labels
 
-# store the clusters to compute the Dunn's index
-from jqmcvi import base
-
-clus0 = df_cluster_time[df_cluster_time['cluster_time_GM']== 0]
-clus1 = df_cluster_time[df_cluster_time['cluster_time_GM']== 1]
-clus2 = df_cluster_time[df_cluster_time['cluster_time_GM']== 2]
-cluster_list = [clus0.values, clus1.values, clus2.values]
-
-print(base.dunn(cluster_list))
-
-
 #mean analysis of clusters per variable
 mean_clusters_GM = df_cluster_time.groupby("cluster_time_GM").mean()
 
