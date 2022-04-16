@@ -245,4 +245,121 @@ fig = px.scatter_3d(df_dbscan,
                  color="cluster", opacity=0.8)
 fig.show()
 
+#CLUSTER | PRODUCTS CATEGORY/BEHAVIOUR | PCA | KMEANS
+df_segmentation = df_cluster.copy()
+df_segmentation = df_segmentation[['customer_unique_id', "product count", "costoprodotti_totale",
+                                   "n_medio_pagamenti", "n_medio_rate",
+                                   'Home', 'Forniture', 'Technology', 'Fashion/Personal care', 'Hobbies']]
+
+list_cols = ["product count", "costoprodotti_totale",
+             "n_medio_pagamenti", "n_medio_rate", 'Home', 'Forniture', 'Technology',
+             'Fashion/Personal care', 'Hobbies']
+
+matrix = df_segmentation[list_cols].to_numpy()
+df_segmentation = pd.DataFrame(df_segmentation)
+#SCALE
+scaler = StandardScaler()
+scaler.fit(matrix)
+scaled_matrix = scaler.transform(matrix)
+
+#PCA
+pca = PCA()
+pca.fit(scaled_matrix)
+pca_samples = pca.transform(scaled_matrix)
+
+#VISUALIZE PCA WITH CUMULATIVE SUM
+fig, ax = plt.subplots(figsize=(14, 5))
+sns.set(font_scale=1)
+plt.step(range(matrix.shape[1]), pca.explained_variance_ratio_.cumsum(), where='mid',
+         label='cumulative explained variance')
+sns.barplot(np.arange(1, matrix.shape[1] + 1), pca.explained_variance_ratio_, alpha=0.5, color='g',
+            label='individual explained variance')
+plt.xlim(0, 10)
+
+ax.set_xticklabels([s if int(s.get_text()) % 2 == 0 else '' for s in ax.get_xticklabels()])
+plt.ylabel('Explained variance', fontsize=14)
+plt.xlabel('Principal components', fontsize=14)
+plt.legend(loc='best', fontsize=13)
+plt.show()
+
+#FIND NUMBER OF CLUSTERS | ELBOW
+objective_function = []
+for i in range(1, 20):
+    clustering = KMeans(n_clusters=i, init='k-means++')
+    clustering.fit(scaled_matrix)
+    objective_function.append(clustering.inertia_)
+
+plt.plot(range(1, 20), objective_function)
+plt.title('The Elbow Method')
+plt.xlabel('Number of Clusters K')
+plt.ylabel('objective_function')
+plt.show()
+
+#KMEANS
+n_clusters = 12
+kmeans = KMeans(n_clusters=n_clusters, init='k-means++', random_state=0)
+kmeans.fit(scaled_matrix)
+clusters_clients = kmeans.predict(scaled_matrix)
+
+#PCA
+pca = PCA(n_components=5)
+matrix_3D = pca.fit_transform(scaled_matrix)
+mat = pd.DataFrame(matrix_3D)
+mat['cluster'] = pd.Series(clusters_clients)
+
+#VISUALIZE PCA COMPONENTS
+import matplotlib.patches as mpatches
+
+sns.set_style("white")
+sns.set_context("notebook", font_scale=1, rc={"lines.linewidth": 2.5})
+
+LABEL_COLOR_MAP = {0: 'r', 1: 'tan', 2: 'b', 3: 'k', 4: 'c', 5: 'g', 6: 'deeppink', 7: 'skyblue', 8: 'darkcyan',
+                   9: 'orange',
+                   10: 'yellow', 11: 'tomato', 12: 'seagreen'}
+label_color = [LABEL_COLOR_MAP[l] for l in mat['cluster']]
+
+fig = plt.figure(figsize=(20, 15))
+increment = 0
+for ix in range(5):
+    for iy in range(ix + 1, 5):
+        increment += 1
+        ax = fig.add_subplot(5, 2, increment)
+        ax.scatter(mat[ix], mat[iy], c=label_color, alpha=0.5)
+        plt.ylabel('PCA {}'.format(iy + 1), fontsize=12)
+        plt.xlabel('PCA {}'.format(ix + 1), fontsize=12)
+        ax.yaxis.grid(color='lightgray', linestyle=':')
+        ax.xaxis.grid(color='lightgray', linestyle=':')
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        if increment == 10: break
+    if increment == 10: break
+
+    # _______________________________________________
+    # I set the legend: abreviation -> airline name
+comp_handler = []
+for i in range(n_clusters):
+    comp_handler.append(mpatches.Patch(color=LABEL_COLOR_MAP[i], label=i))
+
+plt.legend(handles=comp_handler, bbox_to_anchor=(1.1, 0.9),
+           title='Cluster', facecolor='lightgrey',
+           shadow=True, frameon=True, framealpha=1,
+           fontsize=13, bbox_transform=plt.gcf().transFigure)
+
+plt.tight_layout()
+plt.show()
+
+df_segmentation.loc[:, "cluster"] = clusters_clients #add column of clusters to the dataframe with whole values
+#BUILD DATASET
+merged_df = pd.DataFrame()
+for i in range(n_clusters):
+    test = pd.DataFrame(df_segmentation[df_segmentation['cluster'] == i].mean())
+    test = test.T.set_index('cluster', drop=True)
+    test['size'] = df_segmentation[df_segmentation['cluster'] == i].shape[0] #ADD SIZE COLUMN
+    merged_df = pd.concat([merged_df, test])
+# _____________________________________________________
+#merged_df.drop('customer_unique_id', axis=1, inplace=True)
+#print('number of customers:', merged_df['size'].sum())
+merged_df = merged_df.sort_values('costoprodotti_totale') # <--- WHERE TO LOOK FOR THE CLUSTERS
+
 
