@@ -362,4 +362,30 @@ for i in range(n_clusters):
 #print('number of customers:', merged_df['size'].sum())
 merged_df = merged_df.sort_values('costoprodotti_totale') # <--- WHERE TO LOOK FOR THE CLUSTERS
 
+#####CLUSTER CUSTOMER BEHAVIOUR | KMEANS
+df_segmentation = df_cluster[['customer_unique_id',"order_count (only positive orders)","product count",
+                              "costoprodotti_totale","n_medio_pagamenti", "n_medio_rate"]]
+
+df_segmentation= df_segmentation.drop(['customer_unique_id'], axis=1)
+
+df_seg_scale = df_segmentation.copy()
+scaler = StandardScaler()
+df_seg_scale= scaler.fit_transform(df_seg_scale)
+
+objective_function = []
+for i in range(1, 20):
+    clustering = KMeans(n_clusters=i, init='k-means++')
+    clustering.fit(df_seg_scale)
+    objective_function.append(clustering.inertia_)
+plt.plot(range(1, 20), objective_function)
+plt.title('The Elbow Method')
+plt.xlabel('Number of Clusters K')
+plt.ylabel('objective_function')
+plt.show()
+
+kmeans = KMeans(n_clusters=12, init='k-means++', random_state = 0)
+y_kmeans = kmeans.fit_predict(df_seg_scale)
+df_segmentation['cluster_kmeans'] = y_kmeans
+df_RFM = df_segmentation.groupby(['cluster_kmeans']).mean() # <---- DATASET WITH CLUSTER AND MEAN VALUES
+df_segmentation.value_counts(["cluster_kmeans"])
 
