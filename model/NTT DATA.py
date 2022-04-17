@@ -361,6 +361,147 @@ for i in range(n_clusters):
 #merged_df.drop('customer_unique_id', axis=1, inplace=True)
 #print('number of customers:', merged_df['size'].sum())
 merged_df = merged_df.sort_values('costoprodotti_totale') # <--- WHERE TO LOOK FOR THE CLUSTERS
+merged_df_scaled = scaler.fit_transform(merged_df) # <-- scaled values to make radars plots
+
+#VISUALIZIATION RADAR
+
+#NORMAL PEOPLE
+pio.renderers.default = 'browser'
+categories = ['product count', 'costoprodotti_totale', 'n_medio_pagamenti',
+       'n_medio_rate', 'Home', 'Forniture', 'Technology',
+       'Fashion/Personal care', 'Hobbies']
+fig = go.Figure()
+fig.add_trace(go.Scatterpolar(
+      r=[-0.64, -0.55, -0.30, -0.75, -0.57, -0.42, 0.99, -0.53, -0.50],
+      theta=categories,
+      #fill='toself',
+      name='Cluster 4'
+))
+fig.add_trace(go.Scatterpolar(
+      r=[-0.72, -0.54, -0.29, -0.61, 0.99, -0.42, -0.42, -0.54, -0.51],
+      theta=categories,
+      #fill='toself',
+      name='CLuster 2'
+))
+
+fig.add_trace(go.Scatterpolar(
+      r=[-.72, -.5, -0.29, -.64, -.56, -0.42, -.42, -.54, 0.98],
+      theta=categories,
+      #fill='toself',
+      name='CLuster 7'
+))
+fig.add_trace(go.Scatterpolar(
+      r=[-.60, -.49, -.29, -0.58, -0.55, 0.98, -.41, -.53, -0.49],
+      theta=categories,
+      #fill='toself',
+      name='CLuster 3'
+))
+fig.add_trace(go.Scatterpolar(
+      r=[-.50, -.46, -.29, -0.46, -0.56, -.42, -.41, 0.99, -0.49],
+      theta=categories,
+      #fill='toself',
+      name='CLuster 1'
+))
+fig.update_layout(
+  polar=dict(
+    radialaxis=dict(
+      visible=True,
+      range=[-1, 1]
+    )),
+  showlegend=True,
+)
+fig.update_traces(marker_opacity=0.1, fill="toself")
+fig.show()
+
+#SECOND RADAR / HIGH N_PAGAMENTI
+from plotly.subplots import make_subplots
+fig1 = go.Figure()
+fig1.add_trace(go.Scatterpolar(
+      r=[-.57, -.37, 3.3, -1, 0.09, -.24, -.33, 0.1, -0.14],
+      theta=categories,
+      fill='toself',
+      name='CLuster payment_num | 10'
+))
+fig1.update_layout(
+  polar=dict(
+    radialaxis=dict(
+      visible=True,
+      range=[-1, 3]
+    )),
+  showlegend=True,
+)
+fig1.update_traces(marker_opacity=0.1, fill="toself")
+fig1.show()
+
+#THIRD MULTI RADAR
+from plotly.subplots import make_subplots
+pio.renderers.default = 'browser'
+fig2 = make_subplots(1,2)
+fig2.add_trace(go.Scatterpolar(
+      r=[0.55162, -0.28559,-0.30448, -0.17567, -0.54336, -0.41206, -0.41206, -0.47670, 3.03807],
+      theta=categories,
+      fill='toself',
+      name='CLuster product count | 6'
+))
+fig2.add_trace(go.Scatterpolar(
+      r=[0.60023, -0.27,-0.29448, 0.08, 3.05, -0.40206, -0.41, -0.45670, -0.48],
+      theta=categories,
+      fill='toself',
+      name='CLuster product count | 0'
+))
+
+fig2.update_layout(
+  polar=dict(
+    radialaxis=dict(
+      visible=True,
+      range=[-1, 3]
+    )),
+  showlegend=True,
+)
+fig2.update_traces(marker_opacity=0.1, fill="toself")
+fig2.show()
+
+#FOURTH MULTIRADAR / MOST VALUABLE CUSTOMERS
+from plotly.subplots import make_subplots
+pio.renderers.default = 'browser'
+fig3 = make_subplots(1,2)
+fig3.add_trace(go.Scatterpolar(
+      r=[-0.70, -0.11,-0.31448, 2.54567, -0.038, -0.30, -0.35, -0.33670, -0.26],
+      theta=categories,
+      fill='toself',
+      name='CLuster rate alto | 11'
+))
+fig3.add_trace(go.Scatterpolar(
+      r=[1.97, 0.07,-0.30, 0.37, -0.32, 3.17206, -0.4, -0.25670, -0.44],
+      theta=categories,
+      fill='toself',
+      name='CLuster product count | 5'
+))
+
+fig3.add_trace(go.Scatterpolar(
+      r=[2.02, 0.32,-0.30, -.12, -0.55, -.42, 3.19, -0.50, -0.48],
+      theta=categories,
+      fill='toself',
+      name='CLuster product count | 9'
+))
+
+fig3.add_trace(go.Scatterpolar(
+      r=[-0.57, 3.20,-0.29, 1.47, -0.22, -.32206, -0.15, 0.35670, -0.17515],
+      theta=categories,
+      fill='toself',
+      name='CLuster spesa | 8'
+))
+
+fig3.update_layout(
+  polar=dict(
+    radialaxis=dict(
+      visible=True,
+      range=[-1, 3]
+    )),
+  showlegend=True,
+)
+fig3.update_traces(marker_opacity=0.1, fill="toself")
+fig3.show()
 
 #####CLUSTER CUSTOMER BEHAVIOUR | KMEANS
 df_segmentation = df_cluster[['customer_unique_id',"order_count (only positive orders)","product count",
