@@ -1,0 +1,23 @@
+order_id
+customer_id
+customer_unique_i
+seller_id
+order_status = stato dell'ordine
+purchase_date = data d'acquisto
+purchase_time = ora d'acquisto arrotondata alla più vicina
+purchase_time_bin = bin ora d'acquisto
+                    [(00:00 -> 05:59) = 1; (06:00 -> 12:59) = 2; (13:00 -> 18:59) = 3; (19:00 -> 23:59) = 4]
+purchase_weekday = giorno della settimana d'acquisto
+                   (LUN -> 1 ecc.)
+purchase_weekday_bin = bin giorno della settimana d'acquisto
+                       (LUNVEN -> 1; SABDOM -> 2)
+purchase_month = mese d'acquisto
+                 (1 -> GENNAIO; 2 -> FEBBRAIO)
+purchase_month_bin = bin mese d'acquisto
+                     [(DEC -> FEB) = 1; (MAR -> MAG) = 2; (GIU -> AGO) = 3; (SET -> NOV) = 4] 
+approved_date = data d'approvazione ordine
+corriere_date = data consegna al corriere
+consegnato_date = data consegna al cliente
+stimato_date = data stimata di consegna
+wddd = per ciascun prodotto appartenente allo stesso ordine, somma peso * dimensione 1 * dimensione 2 * dimensione3
+product_count = numero di prodotti nello stesso ordine
