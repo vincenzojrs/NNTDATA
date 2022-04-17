@@ -209,7 +209,7 @@ mean_clusters_DBSCAN = df_cluster_time.groupby("cluster_time_DBSCAN").mean()
 
 
 
-#CLUSTER OVER MONEY, RATE, PRODUCT COUNT
+#CLUSTER OVER MONEY, RATE, PRODUCT COUNT #NON MOLTO INTERESSANTE
 df_db = df_cluster[["costoprodotti_totale","product count", "n_medio_rate"]]
 df_scale = df_db.sample(15000, random_state=42)  # random sample
 df_label = df_db.sample(15000, random_state=42)
@@ -245,7 +245,7 @@ fig = px.scatter_3d(df_dbscan,
                  color="cluster", opacity=0.8)
 fig.show()
 
-#CLUSTER | PRODUCTS CATEGORY/BEHAVIOUR | PCA | KMEANS
+#CLUSTER | PRODUCTS CATEGORY/BEHAVIOUR | PCA | KMEANS #_____INTERESSANTE_______
 df_segmentation = df_cluster.copy()
 df_segmentation = df_segmentation[['customer_unique_id', "product count", "costoprodotti_totale",
                                    "n_medio_pagamenti", "n_medio_rate",
@@ -503,7 +503,7 @@ fig3.update_layout(
 fig3.update_traces(marker_opacity=0.1, fill="toself")
 fig3.show()
 
-#####CLUSTER CUSTOMER BEHAVIOUR | KMEANS
+#####CLUSTER CUSTOMER BEHAVIOUR | KMEANS #_____INTERESSANTE______
 df_segmentation = df_cluster[['customer_unique_id',"order_count (only positive orders)","product count",
                               "costoprodotti_totale","n_medio_pagamenti", "n_medio_rate"]]
 
@@ -530,7 +530,7 @@ df_segmentation['cluster_kmeans'] = y_kmeans
 df_RFM = df_segmentation.groupby(['cluster_kmeans']).mean() # <---- DATASET WITH CLUSTER AND MEAN VALUES
 df_segmentation.value_counts(["cluster_kmeans"])
 
-#RECENCY FREQUECY MONEY (RFM)
+#RECENCY FREQUECY MONEY (RFM) #_____INTERESSANTE_____
 df_db = df_cluster[["costoprodotti_totale","order_count (only positive orders)", "recency"]] #"n_medio_rate"
 df_scale = df_db.copy()
 df_label = df_db.copy()
