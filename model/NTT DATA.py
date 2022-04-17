@@ -389,3 +389,38 @@ df_segmentation['cluster_kmeans'] = y_kmeans
 df_RFM = df_segmentation.groupby(['cluster_kmeans']).mean() # <---- DATASET WITH CLUSTER AND MEAN VALUES
 df_segmentation.value_counts(["cluster_kmeans"])
 
+#RECENCY FREQUECY MONEY (RFM)
+df_db = df_cluster[["costoprodotti_totale","order_count (only positive orders)", "recency"]] #"n_medio_rate"
+df_scale = df_db.copy()
+df_label = df_db.copy()
+
+index = df_label.index  # get index
+index = index.to_list()
+index_sub = pd.DataFrame()
+index_sub["index"] = index
+
+scaler = StandardScaler().fit(df_scale)  # scale data for clustering
+df_scale = scaler.transform(df_scale)
+df_scale = pd.DataFrame(df_scale)
+df_scale = df_scale.set_index(index_sub["index"])
+
+#KMEANS
+from sklearn.cluster import KMeans
+objective_function=[]
+for i in range(1,30):
+    clustering=KMeans(n_clusters=i, init='k-means++')
+    clustering.fit(df_scale)
+    objective_function.append(clustering.inertia_)
+
+plt.plot(range(1,30),objective_function)
+plt.title('The Elbow Method')
+plt.xlabel('Number of Clusters K')
+plt.ylabel('objective_function')
+plt.show()
+
+kmeans = KMeans(n_clusters=10, init='k-means++', random_state = 0)
+y_kmeans = kmeans.fit_predict(df_scale)
+df_label['cluster_kmeans'] = y_kmeans
+df_RFM = df_label.groupby(['cluster_kmeans']).mean() #<<-- DATA FRAME CON I CLUSTER
+df_label.value_counts(["cluster_kmeans"])
+
