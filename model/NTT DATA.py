@@ -565,3 +565,22 @@ df_label['cluster_kmeans'] = y_kmeans
 df_RFM = df_label.groupby(['cluster_kmeans']).mean() #<<-- DATA FRAME CON I CLUSTER
 df_label.value_counts(["cluster_kmeans"])
 
+##PCA + VISUALIZATION
+df_seg_scale = pd.DataFrame(df_seg_scale)
+df_seg_scale.columns = ["order_count (only positive orders)","product count",
+                              "costoprodotti_totale","n_medio_pagamenti", "n_medio_rate"]
+df_seg_scale["cluster"] = y_kmeans
+
+pca = PCA(n_components=3)
+pc_3 = pd.DataFrame(pca.fit_transform(df_seg_scale.drop(["cluster"],axis=1)))
+pc_3.columns = ["PC1_3d", "PC2_3d", "PC3_3d"]
+pc_3["cluster"] = y_kmeans
+
+pio.renderers.default = 'browser'  # set pre-definite browser as palce were to render the image
+fig = px.scatter_3d(pc_3,
+                 x="PC1_3d",
+                 y="PC2_3d",
+                 z="PC3_3d",
+                 color="cluster", opacity=0.8)
+fig.show()
+
