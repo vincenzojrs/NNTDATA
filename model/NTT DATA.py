@@ -245,7 +245,7 @@ fig = px.scatter_3d(df_dbscan,
                  color="cluster", opacity=0.8)
 fig.show()
 
-#CLUSTER | PRODUCTS CATEGORY/BEHAVIOUR | PCA | KMEANS #_____INTERESSANTE_______
+#2.CLUSTER | PRODUCTS CATEGORY/BEHAVIOUR | PCA | KMEANS #_____INTERESSANTE_______
 df_segmentation = df_cluster.copy()
 df_segmentation = df_segmentation[['customer_unique_id', "product count", "costoprodotti_totale",
                                    "n_medio_pagamenti", "n_medio_rate",
@@ -503,7 +503,7 @@ fig3.update_layout(
 fig3.update_traces(marker_opacity=0.1, fill="toself")
 fig3.show()
 
-#####CLUSTER CUSTOMER BEHAVIOUR | KMEANS #_____INTERESSANTE______
+#####3.CLUSTER CUSTOMER BEHAVIOUR | KMEANS #_____INTERESSANTE______
 df_segmentation = df_cluster[['customer_unique_id',"order_count (only positive orders)","product count",
                               "costoprodotti_totale","n_medio_pagamenti", "n_medio_rate"]]
 
@@ -529,6 +529,29 @@ y_kmeans = kmeans.fit_predict(df_seg_scale)
 df_segmentation['cluster_kmeans'] = y_kmeans
 df_RFM = df_segmentation.groupby(['cluster_kmeans']).mean() # <---- DATASET WITH CLUSTER AND MEAN VALUES
 df_segmentation.value_counts(["cluster_kmeans"])
+size = [21764, 2622,9847, 2550, 932, 161, 6527, 49570, 1313, 244]
+df_RFM["size"] = size
+
+
+##PCA + VISUALIZATION
+df_seg_scale = pd.DataFrame(df_seg_scale)
+df_seg_scale.columns = ["order_count (only positive orders)","product count",
+                              "costoprodotti_totale","n_medio_pagamenti", "n_medio_rate"]
+df_seg_scale["cluster"] = y_kmeans
+
+pca = PCA(n_components=3)
+pc_3 = pd.DataFrame(pca.fit_transform(df_seg_scale.drop(["cluster"],axis=1)))
+pc_3.columns = ["PC1_3d", "PC2_3d", "PC3_3d"]
+pc_3["cluster"] = y_kmeans
+
+pio.renderers.default = 'browser'  # set pre-definite browser as palce were to render the image
+fig = px.scatter_3d(pc_3,
+                 x="PC1_3d",
+                 y="PC2_3d",
+                 z="PC3_3d",
+                 color="cluster", opacity=0.8)
+fig.update_traces(marker=dict(size=3))
+fig.show()
 
 #RECENCY FREQUECY MONEY (RFM) #_____INTERESSANTE_____
 df_db = df_cluster[["costoprodotti_totale","order_count (only positive orders)", "recency"]] #"n_medio_rate"
@@ -565,22 +588,5 @@ df_label['cluster_kmeans'] = y_kmeans
 df_RFM = df_label.groupby(['cluster_kmeans']).mean() #<<-- DATA FRAME CON I CLUSTER
 df_label.value_counts(["cluster_kmeans"])
 
-##PCA + VISUALIZATION
-df_seg_scale = pd.DataFrame(df_seg_scale)
-df_seg_scale.columns = ["order_count (only positive orders)","product count",
-                              "costoprodotti_totale","n_medio_pagamenti", "n_medio_rate"]
-df_seg_scale["cluster"] = y_kmeans
 
-pca = PCA(n_components=3)
-pc_3 = pd.DataFrame(pca.fit_transform(df_seg_scale.drop(["cluster"],axis=1)))
-pc_3.columns = ["PC1_3d", "PC2_3d", "PC3_3d"]
-pc_3["cluster"] = y_kmeans
-
-pio.renderers.default = 'browser'  # set pre-definite browser as palce were to render the image
-fig = px.scatter_3d(pc_3,
-                 x="PC1_3d",
-                 y="PC2_3d",
-                 z="PC3_3d",
-                 color="cluster", opacity=0.8)
-fig.show()
 
