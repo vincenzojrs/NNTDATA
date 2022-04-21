@@ -7,10 +7,6 @@ import seaborn as sns
 
 df = pd.read_csv("customer_dataset.csv", sep=";")
 
-'''
-plt.hist(data=x, x= "3")
-plt.show()
-'''
 
 df = df[df.automotive != "#N/D"]
 
@@ -126,10 +122,8 @@ df_cluster['cluster_kmeans'] = y_kmeans
 df_cluster_features = df_cluster[['order_count (only positive orders)','product count', 'n_medio_pagamenti',
        'n_medio_rate', 'Home', 'Forniture', 'Technology',
        'Fashion/Personal care', 'Hobbies','total_money_spent','cluster_kmeans']]
-'''
-df_cluster_prova = df_cluster[['product count', 'n_medio_pagamenti',
-       'n_medio_rate', 'most_frequent_weekday','total_money_spent','cluster_kmeans']]
-'''
+
+
 #mean analysis of clusters per variable
 mean_clusters_prova_kmeans = df_cluster_features.groupby("cluster_kmeans").mean()
 mean_clusters_prova_kmeans['size'] = df_cluster_features.groupby(['cluster_kmeans'])['cluster_kmeans'].transform(len)
@@ -242,19 +236,3 @@ fig.update_layout(
 fig.update_traces(marker_opacity=0.1, fill="toself")
 fig.update_layout(polar = dict(radialaxis = dict(showticklabels = False)))
 fig.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
