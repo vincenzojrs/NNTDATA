@@ -186,6 +186,7 @@ fig.update_layout(
   showlegend=True,
 )
 fig.update_traces(marker_opacity=0.1, fill="toself")
+fig.update_layout(polar = dict(radialaxis = dict(showticklabels = False)))
 fig.show()
 
 
