@@ -1,0 +1,10 @@
+seller_id
+seller_city
+review_medie
+order_count = n. ordini ricevuti
+product_count = n. prodotto venduti
+fatturato = fatturato totale al netto delle spese di spedizione
+best_seller_category = categorie di prodotto più venduta
+fatturato_medio_per_prodotto = fatturato / product_count
+media_deltatime = n. medio di giorni di differenza tra data consegna e data di esecuzione ordine [1/ntot * sum(n. ordine)[delivered - purchased]
+
