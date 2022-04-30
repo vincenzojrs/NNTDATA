@@ -1,0 +1,69 @@
+﻿city;city_lat;cit_long;city_aut_com;id_ac;population;province;is_capital?;province_id
+Ibiza - Ibiza;38.9089;1.4328;Baleares;3;51128;Baleares;0;18
+Calviá - Mallorca;39.565556;2.507222;Baleares;3;51774;Baleares;0;18
+Pontevedra;42.4333;-8.6333;Galicia;12;83260;Pontevedra;1;19
+Gerona;41.9833;2.8167;Cataluña;7;103369;Gerona;1;20
+Toledo;39.8567;-4.0244;Castilla-La Mancha;6;85811;Toledo;1;21
+Alicante;38.3453;-0.4831;Comunidad Valenciana;10;337482;Alicante;1;22
+Valencia;39.47;-0.3764;Comunidad Valenciana;10;800215;Valencia;1;23
+Coruña;43.3713;-8.4188;Galicia;12;370610;Coruña;1;24
+Calahorra;42.3;-1.9667;La Rioja;14;24531;La Rioja;0;25
+Mérida;38.9;-6.3333;Extremadura;11;59548;Badajoz;0;26
+Málaga;36.7194;-4.42;Andalucía;1;967250;Málaga;1;27
+Valladolid;41.6528;-4.7236;Castilla y León;5;299265;Valladolid;1;28
+Cuenca;40.0667;-2.15;Castilla-La Mancha;6;54621;Cuenca;1;29
+Burgos;42.35;-3.6822;Castilla y León;5;170183;Burgos;1;30
+Murcia;37.9861;-1.1303;Región de Murcia;17;502000;Murcia;1;31
+Cáceres;39.4833;-6.3667;Extremadura;11;96255;Cáceres;1;32
+Torrelavega;43.3531;-4.0458;Cantabria;4;51597;Cantabria;0;33
+Parla;40.2372;3.7742;Comunidad de Madrid;8;122028;Madrid;0;34
+Vitoria;42.85;-2.6833;País Vasco;15;253996;Álava;1;35
+Salamanca;40.9667;-5.6639;Castilla y León;5;144825;Salamanca;1;36
+Barcelona;41.3825;2.1769;Cataluña;7;4588000;Barcelona;1;37
+Castellón;39.9854;-0.0334;Comunidad Valenciana;10;4251;Castellón;1;38
+Almería;36.8403;-2.4681;Andalucía;1;201322;Almería;1;39
+Tarragona;41.1187;1.2453;Cataluña;7;136496;Tarragona;1;40
+Albacete;38.9956;-1.8558;Castilla-La Mancha;6;174336;Albacete;1;41
+Ávila;40.65;-4.6833;Castilla y León;5;58369;Ávila;1;42
+Sevilla;37.39;-5.99;Andalucía;1;1107000;Sevilla;1;43
+Cádiz;36.535;-6.2975;Andalucía;1;115439;Cádiz;1;44
+Pamplona;42.8167;-1.65;Comunidad Foral de Navarra;9;203944;Navarra;1;45
+Madrid;40.4167;-3.7167;Comunidad de Madrid;8;6026000;Madrid;1;34
+Santa Cruz de Tenerife;28.4667;-16.25;Islas Canarias;13;209194;Santa Cruz de Tenerife;1;46
+Arrecife - Lanzarote;28.9625;-13.5506;Islas Canarias;13;64645;Las Palmas;0;47
+Tudela;42.0653;-1.6067;Comunidad Foral de Navarra;9;37042;Tudela;1;48
+San Sebastián;40.5469;-3.6258;País Vasco;15;91224;Gipuzkoa;1;49
+Zamora;41.5033;-5.7556;Castilla y León;5;60988;Zamora;1;50
+Logroño;42.465;-2.4456;La Rioja;14;197000;La Rioja;1;25
+Fuenlabrada;40.2833;-3.8;Comunidad de Madrid;8;194514;Madrid;0;34
+Granada;37.1781;-3.6008;Andalucía;1;233648;Granada;1;51
+Torrejón de Ardoz;40.4614;-3.4978;Comunidad de Madrid;8;127132;Madrid;0;34
+Alcorcón;40.35;-3.8333;Comunidad de Madrid;8;172384;Madrid;0;34
+Palma de Mallorca - Mallorca;39.5667;2.65;Baleares;3;550000;Baleares;1;18
+Jaén;37.7667;-3.7711;Andalucía;1;112757;Jaén;1;52
+Avilés;43.5561;-5.9083;Principado de Asturias;16;77791;Asturie;0;53
+Manacor - Mallorca;39.57;3.2089;Baleares;3;44527;Baleares;0;18
+Huelva;37.25;-6.95;Andalucía;1;144174;Huelva;1;54
+Lleida;41.6167;0.6222;Cataluña;7;137856;Lleida;1;55
+Teruel;40.3456;-1.1065;Aragón;2;35691;Teruel;1;56
+Segovia;40.9481;-4.1184;Castilla y León;5;51683;Segovia;1;57
+Alcobendas;40.533333;-3.633333;Comunidad de Madrid;8;114864;Madrid;0;34
+Soria;41.7667;-2.4667;Castilla y León;5;39112;Soria;1;58
+Las Palmas de Gran Canaria;28.1272;-15.4314;Islas Canarias;13;381223;Las Palmas;1;47
+Zaragoza;41.6483;-0.883;Aragón;2;649404;Zaragoza;1;59
+Oviedo;43.36;-5.845;Principado de Asturias;16;219910;Asturie;1;53
+Santander;43.4628;-3.805;Cantabria;4;173375;Cantabria;1;33
+Huesca;42.1333;-0.4167;Aragón;2;53956;Huesca;1;60
+Lugo;43.0167;-7.55;Galicia;12;98519;Lugo;1;61
+Puerto del Rosario - Fuerteventura;28.5;-13.8667;Islas Canarias;13;41808;Las Palmas;0;47
+Córdoba;37.8845;-4.7796;Andalucía;1;321376;Córdoba;1;62
+Móstoles;40.316667;-3.85;Comunidad de Madrid;8;205015;Madrid;0;34
+Palencia;42.0167;-4.5333;Castilla y León;5;78629;Palencia;1;63
+Leganés;40.3281;-3.7644;Comunidad de Madrid;8;191114;Madrid;0;34
+Getafe;40.3047;-3.7311;Comunidad de Madrid;8;173057;Madrid;0;34
+Bilbao;43.2569;-2.9236;País Vasco;15;350184;Biscaglia;1;64
+Alcalá de Henares;40.481815;3.364305;Comunidad de Madrid;8;197562;Madrid;0;34
+Badajoz;38.8803;-6.9753;Extremadura;11;150984;Badajoz;1;26
+Gijón;43.5333;-5.7;Principado de Asturias;16;271780;Asturie;0;53
+Ourense;42.3364;-7.8633;Galicia;12;105;Ourense;1;65
+León;42.6056;-5.57;Castilla y León;5;202793;León;1;66
