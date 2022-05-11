@@ -12,3 +12,7 @@ Realized by:
 * Gioia M. - Business Specialist
 * Imperatore C. - Consultant
 * Striano V. J. - Team Leader
+
+link to presentation:
+
+https://www.canva.com/design/DAFAICB60es/N3NUSnO9ZyYmhhJH-cGO6Q/view?utm_content=DAFAICB60es&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink
